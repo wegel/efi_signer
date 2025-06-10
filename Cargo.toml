@@ -19,8 +19,8 @@ log = "0.4.17"
 md-5 = "0.10.6"
 openssl = "0.10.52"
 openssl-sys = { version = "0.9.87", features = ["vendored"] }
-picky = { version = "7.0.0-rc.8", features = ["pkcs7", "wincert", "time_conversion", "ctl", "ctl_http_fetch"] }
-picky-asn1-x509 = "0.14.1"
+picky = { version = "7.0.0-rc.14", features = ["pkcs7", "wincert", "time_conversion", "ctl", "ctl_http_fetch"] }
+picky-asn1-x509 = "0.14.3"
 serde = "1.0.159"
 sha1 = "0.10.6"
 sha2 = "0.10.8"

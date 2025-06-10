@@ -13,7 +13,6 @@
  *  * // See the Mulan PSL v2 for more details.
  *
  */
-#![feature(buf_read_has_data_left)]
 use crate::error::{
     AlgorithmSnafu, AuthenticodeSnafu, CertDecodeSnafu, ConvertPEM2PKCS7Snafu,
     InvalidMagicInOptHdrSnafu, MissingOptHdrSnafu, NoDigestAlgoSnafu, OpenFileSnafu, PESnafu,
@@ -426,7 +425,11 @@ impl<'a> EfiImage<'a> {
             cert_table = Some(EfiImage::get_cert_table_section(pe, raw)?);
             // there maybe more than one signature
             // so we scan over all the cert table
-            while rdr.has_data_left().context(ReadLeftDataSnafu {})? {
+            while rdr
+                .fill_buf()
+                .map(|b| !b.is_empty())
+                .context(ReadLeftDataSnafu {})?
+            {
                 // “length” indicating the length of the structure, include the header itself
                 // so the length of the signed data should be length - 4 - 2 - 2
                 let length = rdr.read_u32::<LittleEndian>().context(ReadBtyeSnafu {
